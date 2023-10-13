@@ -1,8 +1,5 @@
 import { FlatList, StyleSheet, Text } from 'react-native';
-
-function ExpenseItem({ item }) {
-  return <Text>{item.title}</Text>;
-}
+import ExpenseItem from './ExpenseItem';
 
 function ExpensesList({ expenses }) {
   return (
@@ -13,7 +10,5 @@ function ExpensesList({ expenses }) {
     />
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default ExpensesList;

@@ -27,6 +27,36 @@ const expensesData = [
     title: 'New Desk (Wooden)',
     amount: 450,
     date: new Date(2023, 10, 12)
+  },
+  {
+    id: 'e5',
+    title: 'New Desk (Glass)',
+    amount: 100,
+    date: new Date(2023, 10, 12)
+  },
+  {
+    id: 'e6',
+    title: 'New Desk (Metal)',
+    amount: 150,
+    date: new Date(2023, 10, 12)
+  },
+  {
+    id: 'e7',
+    title: 'New Desk (Plastic)',
+    amount: 200,
+    date: new Date(2023, 10, 12)
+  },
+  {
+    id: 'e8',
+    title: 'Book',
+    amount: 10,
+    date: new Date(2023, 10, 12)
+  },
+  {
+    id: 'e9',
+    title: 'Banana',
+    amount: 1,
+    date: new Date(2023, 9, 12)
   }
 ];
 
@@ -42,7 +72,9 @@ function ExpensesOutput({ expenses, expensesPeriod }) {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 0,
     backgroundColor: GlobalStyles.colors.primary200
   }
 });
