@@ -1,4 +1,4 @@
-export const GlobalStyles = {
+const GlobalStyles = {
   colors: {
     primary50: '#e4d9fd',
     primary100: '#c6affc',
@@ -14,3 +14,14 @@ export const GlobalStyles = {
     gray700: '#221c30'
   }
 };
+
+GlobalStyles.card = {
+  borderRadius: 6,
+  shadowColor: GlobalStyles.colors.gray500,
+  shadowOffset: { width: 1, height: 1 },
+  shadowRadius: 4,
+  shadowOpacity: 0.4,
+  elevation: 4
+};
+
+export { GlobalStyles };
