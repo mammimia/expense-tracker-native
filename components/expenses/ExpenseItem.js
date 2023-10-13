@@ -3,8 +3,15 @@ import { GlobalStyles } from '../../constants/styles';
 import { formatDate } from '../../util/DateUtil';
 
 function ExpenseItem({ item }) {
+  function expensePressHandler() {
+    console.log('ExpenseItem: expensePressHandler');
+  }
+
   return (
-    <Pressable>
+    <Pressable
+      onPress={expensePressHandler}
+      style={({ pressed }) => pressed && GlobalStyles.pressed}
+    >
       <View style={[styles.rootContainer, GlobalStyles.card]}>
         <View>
           <Text style={[styles.textBase, styles.description]}>
