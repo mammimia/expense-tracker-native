@@ -1,11 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import ExpensesOutput from '../components/expenses/ExpensesOutput';
 
 function AllExpenses() {
-  return (
-    <View>
-      <Text>AllExpenses</Text>
-    </View>
-  );
+  return <ExpensesOutput expensesPeriod="Total" />;
 }
 
 const styles = StyleSheet.create({});
