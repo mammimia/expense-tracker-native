@@ -8,6 +8,7 @@ import RecentExpenses from './screens/RecentExpenses';
 import { GlobalStyles } from './constants/styles';
 import { Ionicons } from '@expo/vector-icons';
 import IconButton from './components/ui/IconButton';
+import ExpensesContextProvider from './store/ExpensesContext';
 
 const Stack = createStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -65,32 +66,34 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: GlobalStyles.colors.primary500
-            },
-            headerTintColor: 'white'
-          }}
-        >
-          <Stack.Screen
-            name="expenses-overview"
-            component={ExpensesOverview}
-            options={{
-              headerShown: false
+      <ExpensesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: GlobalStyles.colors.primary500
+              },
+              headerTintColor: 'white'
             }}
-          />
-          <Stack.Screen
-            name="manage-expenses"
-            component={ManageExpenses}
-            options={{
-              title: 'Manage Expenses',
-              presentation: 'modal'
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="expenses-overview"
+              component={ExpensesOverview}
+              options={{
+                headerShown: false
+              }}
+            />
+            <Stack.Screen
+              name="manage-expenses"
+              component={ManageExpenses}
+              options={{
+                title: 'Manage Expenses',
+                presentation: 'modal'
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }

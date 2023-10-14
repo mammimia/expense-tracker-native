@@ -52,5 +52,11 @@ export const expensesData = [
     title: 'Banana',
     amount: 1,
     date: new Date(2023, 9, 12)
+  },
+  {
+    id: 'e10',
+    title: 'Apple',
+    amount: 2,
+    date: new Date(2023, 9, 8)
   }
 ];
