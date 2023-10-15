@@ -12,20 +12,32 @@ function ExpenseForm({
   submitButtonLabel
 }) {
   const [form, setForm] = useState({
-    title: selectedExpense?.title || '',
-    amount: selectedExpense?.amount.toString() || '',
-    date: formatDate(selectedExpense?.date) || ''
+    title: {
+      value: selectedExpense?.title || '',
+      isValid: true
+    },
+    amount: {
+      value: selectedExpense?.amount.toString() || '',
+      isValid: true
+    },
+    date: {
+      value: formatDate(selectedExpense?.date) || '',
+      isValid: true
+    }
   });
 
   function inputChangeHandler(inputName, inputValue) {
-    setForm((prevForm) => ({ ...prevForm, [inputName]: inputValue }));
+    setForm((prevForm) => ({
+      ...prevForm,
+      [inputName]: { value: inputValue, isValid: true }
+    }));
   }
 
   function saveHandler() {
     const expenseData = {
-      title: form.title,
-      amount: +form.amount,
-      date: new Date(form.date)
+      title: form.title.value,
+      amount: +form.amount.value,
+      date: new Date(form.date.value)
     };
 
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
@@ -33,11 +45,12 @@ function ExpenseForm({
     const titleIsValid = expenseData.title.trim().length > 0;
 
     if (!amountIsValid || !dateIsValid || !titleIsValid) {
-      Alert.alert(
-        'Invalid input',
-        'Please enter a valid title, amount and date.',
-        [{ text: 'OK' }]
-      );
+      setForm((prevForm) => ({
+        ...prevForm,
+        title: { ...prevForm.title, isValid: titleIsValid },
+        amount: { ...prevForm.amount, isValid: amountIsValid },
+        date: { ...prevForm.date, isValid: dateIsValid }
+      }));
 
       return;
     }
@@ -52,31 +65,39 @@ function ExpenseForm({
         <Input
           style={styles.rowInput}
           label="Amount"
+          isValid={form.amount.isValid}
           textInputProps={{
             keyboardType: 'decimal-pad',
             onChangeText: inputChangeHandler.bind(this, 'amount'),
-            value: form.amount
+            value: form.amount.value
           }}
         />
         <Input
           style={styles.rowInput}
+          isValid={form.date.isValid}
           label="Date"
           textInputProps={{
             placeholder: 'YYYY-MM-DD',
             maxLength: 10,
             onChangeText: inputChangeHandler.bind(this, 'date'),
-            value: form.date
+            value: form.date.value
           }}
         />
       </View>
       <Input
         label="Title"
+        isValid={form.title.isValid}
         textInputProps={{
           multiline: true,
           onChangeText: inputChangeHandler.bind(this, 'title'),
-          value: form.title
+          value: form.title.value
         }}
       />
+      {(!form.title.isValid || !form.amount.isValid || !form.date.isValid) && (
+        <Text style={styles.errorText}>
+          Please enter a valid title, amount and date.
+        </Text>
+      )}
       <View style={styles.buttonContainer}>
         <Button style={styles.button} onPress={onCancel} mode="flat">
           Cancel
@@ -116,6 +137,11 @@ const styles = StyleSheet.create({
   button: {
     minWidth: 120,
     marginHorizontal: 8
+  },
+  errorText: {
+    color: GlobalStyles.colors.error500,
+    textAlign: 'center',
+    margin: 8
   }
 });
 
