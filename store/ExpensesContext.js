@@ -1,5 +1,4 @@
 import { createContext, useReducer } from 'react';
-import { expensesData } from '../data/ExpensesData';
 
 const EXPENSE_ACTION_TYPES = {
   ADD: 'ADD',
@@ -44,7 +43,7 @@ function expensesReducer(state, action) {
 }
 
 function ExpensesContextProvider({ children }) {
-  const [expensesState, dispatch] = useReducer(expensesReducer, expensesData);
+  const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
   function addExpense(expenseData) {
     dispatch({
