@@ -21,7 +21,7 @@ function ExpenseForm({
       isValid: true
     },
     date: {
-      value: formatDate(selectedExpense?.date) || '',
+      value: formatDate(selectedExpense?.date) || new Date().toISOString(),
       isValid: true
     }
   });
