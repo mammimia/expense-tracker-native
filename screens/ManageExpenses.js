@@ -26,12 +26,12 @@ function ManageExpenses({ route, navigation }) {
     deleteExpense(editedExpenseId);
   }
 
-  function saveHandler(expenseData) {
+  async function saveHandler(expenseData) {
     if (isEditing) {
       updateExpense(editedExpenseId, expenseData);
     } else {
-      ExpensesService.addExpense(expenseData);
-      addExpense(expenseData);
+      const id = await ExpensesService.addExpense(expenseData);
+      addExpense({ ...expenseData, id });
     }
 
     navigation.goBack();
