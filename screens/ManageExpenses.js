@@ -6,9 +6,11 @@ import { GlobalStyles } from '../constants/styles';
 import { ExpensesContext } from '../store/ExpensesContext';
 import ExpensesService from '../services/ExpensesService';
 import LoadingOverlay from '../components/ui/LoadingOverlay';
+import ErrorOverlay from '../components/ui/ErrorOverlay';
 
 function ManageExpenses({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const { expenses, addExpense, updateExpense, deleteExpense } =
     useContext(ExpensesContext);
   const editedExpenseId = route.params?.expenseId;
@@ -25,28 +27,39 @@ function ManageExpenses({ route, navigation }) {
 
   async function deleteHandler() {
     setIsSubmitting(true);
-    await ExpensesService.deleteExpense(editedExpenseId);
+    try {
+      await ExpensesService.deleteExpense(editedExpenseId);
+      deleteExpense(editedExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      setError("Couldn't delete expense.");
+    }
     setIsSubmitting(false);
-    deleteExpense(editedExpenseId);
-    navigation.goBack();
   }
 
   async function saveHandler(expenseData) {
     setIsSubmitting(true);
-    if (isEditing) {
-      await ExpensesService.updateExpense(editedExpenseId, expenseData);
-      updateExpense(editedExpenseId, expenseData);
-    } else {
-      const id = await ExpensesService.addExpense(expenseData);
-      addExpense({ ...expenseData, id });
+    try {
+      if (isEditing) {
+        await ExpensesService.updateExpense(editedExpenseId, expenseData);
+        updateExpense(editedExpenseId, expenseData);
+      } else {
+        const id = await ExpensesService.addExpense(expenseData);
+        addExpense({ ...expenseData, id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("Couldn't save expense.");
     }
     setIsSubmitting(false);
-
-    navigation.goBack();
   }
 
   function cancelHandler() {
     navigation.goBack();
+  }
+
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} onConfirm={() => setError(null)} />;
   }
 
   if (isSubmitting) {
