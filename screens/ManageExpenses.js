@@ -21,13 +21,15 @@ function ManageExpenses({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteHandler() {
-    navigation.goBack();
+  async function deleteHandler() {
+    await ExpensesService.deleteExpense(editedExpenseId);
     deleteExpense(editedExpenseId);
+    navigation.goBack();
   }
 
   async function saveHandler(expenseData) {
     if (isEditing) {
+      await ExpensesService.updateExpense(editedExpenseId, expenseData);
       updateExpense(editedExpenseId, expenseData);
     } else {
       const id = await ExpensesService.addExpense(expenseData);

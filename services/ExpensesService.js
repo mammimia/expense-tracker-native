@@ -24,7 +24,17 @@ async function addExpense(expenseData) {
   return response?.data?.name; // id
 }
 
+async function updateExpense(id, expenseData) {
+  await axios.patch(`${REACT_APP_API_URL}/expenses/${id}.json`, expenseData);
+}
+
+async function deleteExpense(id) {
+  await axios.delete(`${REACT_APP_API_URL}/expenses/${id}.json`);
+}
+
 export default {
   getExpenses,
-  addExpense
+  addExpense,
+  updateExpense,
+  deleteExpense
 };
